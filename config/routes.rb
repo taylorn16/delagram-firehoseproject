@@ -1,5 +1,6 @@
 Delagram::Application.routes.draw do
 
+  devise_for :users
   root to: 'grams#index'
 
   resources :grams, only: [:new, :create]

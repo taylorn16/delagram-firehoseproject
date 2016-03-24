@@ -1,0 +1,48 @@
+!!!
+%html
+  %head
+    %title Delagram
+    %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
+    = javascript_include_tag "application", "data-turbolinks-track" => true
+    = csrf_meta_tags
+  %body
+    .navbar.navbar-inverse.navbar-static-top
+      .container
+        %header.navbar-header
+          %button.navbar-toggle.collapsed{'type' => 'button', 'data-toggle' => 'collapse', 'data-target' => '#main-nav', 'aria-expanded' => 'false'}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to 'DelaGram', root_path, class: 'navbar-brand'
+
+        .collapse.navbar-collapse#main-nav
+          %ul.nav.navbar-nav
+            - if user_signed_in?
+              %li
+                = link_to 'Post a Gram', new_gram_path
+
+          %ul.nav.navbar-nav.navbar-right
+            - if user_signed_in?
+              %p.navbar-text= "You're signed in as #{current_user.email}"
+              %li
+                = link_to 'Sign Out', destroy_user_session_path, method: :delete
+            - else
+              %li
+                = link_to 'Sign Up', new_user_registration_path
+              %li
+                = link_to 'Sign In', user_session_path
+
+    .container
+      .row
+        .col-xs-12
+          - if alert
+            .alert.alert-warning
+              %p= alert
+          - if notice
+            .alert.alert-info
+              %p= notice
+
+    .container
+      = yield
