@@ -1,1 +1,17 @@
-%h1 Grams! 
+.row
+  .col-xs-12
+    %h1 All Grams (GramsContoller#index)
+    %hr
+    - if Gram.count > 0
+      - Gram.all.each do |gram|
+        .row
+          .col-xs-12.col-md-6.col-md-offset-3
+            %section.panel.panel-default.gram-panel
+              .panel-body
+                = image_tag gram.photo, class: 'img-responsive img-rounded'
+                %hr
+                %p= gram.message
+              .panel-footer.clearfix
+                %span.pull-right= gram.user.email
+    - else
+      %p.lead There are no grams uploaded yet!
