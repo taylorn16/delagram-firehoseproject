@@ -89,6 +89,15 @@ RSpec.describe GramsController, type: :controller do
 
       expect(response).to redirect_to new_user_session_url
     end
+
+    it "shouldn't let a user who did not create the gram edit that gram" do
+      gram = FactoryGirl.create :gram
+      user = FactoryGirl.create :user
+      sign_in user
+      get :edit, id: gram.id
+
+      expect(response).to have_http_status(:forbidden)
+    end
   end
 
   describe "grams#update action" do
@@ -128,6 +137,17 @@ RSpec.describe GramsController, type: :controller do
       expect(response).to redirect_to new_user_session_url
       expect(gram.message).to eq 'initial'
     end
+
+    it "shouldn't let users who didn't create the gram update that gram" do
+      gram = FactoryGirl.create :gram, message: 'initial'
+      user = FactoryGirl.create :user
+      sign_in user
+      put :update, id: gram.id, gram: {message: 'changed'}
+      gram.reload
+
+      expect(response).to have_http_status(:forbidden)
+      expect(gram.message).to eq 'initial'
+    end
   end
 
   describe "grams#destroy action" do
@@ -154,6 +174,17 @@ RSpec.describe GramsController, type: :controller do
       delete :destroy, id: gram.id
 
       expect(response).to redirect_to new_user_session_url
+    end
+
+    it "shouldn't allow users who didn't create the gram to destroy it" do
+      gram = FactoryGirl.create :gram, message: 'initial'
+      user = FactoryGirl.create :user
+      sign_in user
+      delete :destroy, id: gram.id
+      gram  = Gram.find_by_id(gram.id)
+
+      expect(response).to have_http_status(:forbidden)
+      expect(gram.message).to eq 'initial'
     end
   end
 end
