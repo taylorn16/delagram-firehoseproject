@@ -1,6 +1,6 @@
 class GramsController < ApplicationController
 
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :update, :edit, :destroy]
   before_action :ensure_gram_found!, only: [:show, :edit, :update, :destroy]
 
   def index
