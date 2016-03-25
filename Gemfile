@@ -47,7 +47,7 @@ gem 'simple_form'
 gem 'devise'
 gem 'carrierwave'
 gem 'figaro'
-gem 'carrierwave-aws'
+gem 'fog'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
