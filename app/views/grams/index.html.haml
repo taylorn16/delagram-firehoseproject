@@ -1,6 +1,8 @@
 .row
   .col-xs-12
-    %h1 All Grams (GramsContoller#index)
+    %h1
+      All Grams
+      %small GramsContoller#index
     %hr
     - if Gram.count > 0
       - Gram.all.each do |gram|
