@@ -1,7 +1,7 @@
 class GramsController < ApplicationController
 
   before_action :authenticate_user!, only: [:new, :create]
-  before_action :ensure_gram_found!, only: [:show, :edit, :update]
+  before_action :ensure_gram_found!, only: [:show, :edit, :update, :destroy]
 
   def index
   end
@@ -34,6 +34,12 @@ class GramsController < ApplicationController
     else
       return render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    current_gram.destroy
+
+    return redirect_to root_url
   end
 
   private
