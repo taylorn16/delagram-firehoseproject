@@ -1,6 +1,7 @@
 class GramsController < ApplicationController
 
   before_action :authenticate_user!, only: [:new, :create]
+  before_action :ensure_gram_found!, only: [:show, :edit, :update]
 
   def index
   end
@@ -20,8 +21,18 @@ class GramsController < ApplicationController
   end
 
   def show
-    if current_gram.blank?
-      redirect_to root_url, status: :not_found
+  end
+
+  def edit
+  end
+
+  def update
+    current_gram.update_attributes(gram_params)
+
+    if current_gram.valid?
+      return redirect_to root_url
+    else
+      return render :edit, status: :unprocessable_entity
     end
   end
 
@@ -34,4 +45,11 @@ class GramsController < ApplicationController
   def current_gram
     @current_gram ||= Gram.find_by_id(params[:id])
   end
+
+  def ensure_gram_found!
+    if current_gram.blank?
+      return render file: 'public/404.html', status: :not_found
+    end
+  end
+
 end
