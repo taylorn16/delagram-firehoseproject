@@ -5,4 +5,9 @@ FactoryGirl.define do
     end
     password 'abcd1234'
   end
+
+  factory :gram do
+    message 'hello'
+    association :user
+  end
 end

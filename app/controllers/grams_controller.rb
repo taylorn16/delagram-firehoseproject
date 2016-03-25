@@ -19,10 +19,19 @@ class GramsController < ApplicationController
     end
   end
 
+  def show
+    if current_gram.blank?
+      redirect_to root_url, status: :not_found
+    end
+  end
+
   private
 
   def gram_params
     params.require(:gram).permit(:message)
   end
 
+  def current_gram
+    @current_gram ||= Gram.find_by_id(params[:id])
+  end
 end
