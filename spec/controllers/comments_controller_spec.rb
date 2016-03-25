@@ -27,8 +27,36 @@ RSpec.describe CommentsController, type: :controller do
       sign_in user
       post :create, gram_id: 'TACOCAT', comment: {text: 'Sample comment'}
 
-      expect(response).to have_http_status(:not_found)
+      expect(response).to have_http_status :not_found
       expect(Comment.count).to eq 0
+    end
+  end
+
+  describe "comments#destroy action" do
+    it "should allow users to delete their comments" do
+      comment = FactoryGirl.create :comment
+      sign_in comment.user
+      delete :destroy, gram_id: comment.gram.id, id: comment.id
+
+      expect(response).to redirect_to root_url
+    end
+
+    it "shouldn't let users delete other users' comments" do
+      comment = FactoryGirl.create :comment
+      user = FactoryGirl.create :user
+      sign_in user
+      delete :destroy, gram_id: comment.gram.id, id: comment.id
+
+      expect(response).to have_http_status :forbidden
+      expect(Comment.find_by_id(comment.id).text).to eq comment.text
+    end
+
+    it "should return 404 not found if the comment or gram isn't found" do
+      user = FactoryGirl.create :user
+      sign_in user
+      delete :destroy, gram_id: 'TACO', id: 'CAT'
+
+      expect(response).to have_http_status :not_found
     end
   end
 
