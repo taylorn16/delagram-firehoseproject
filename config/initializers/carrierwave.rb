@@ -1,7 +1,6 @@
 CarrierWave.configure do |config|
-  config.fog_directory = ENV['AWS_BUCKET']
+  config.fog_directory = ENV['AWS_BUCKET_NAME']
   config.cache_dir = "#{Rails.root}/tmp/uploads"
-  config.s3_access_policy = :public_read
 
   config.fog_credentials = {
     :provider =>              'AWS',
