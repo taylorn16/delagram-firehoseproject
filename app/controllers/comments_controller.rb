@@ -36,10 +36,12 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:text)
   end
 
+  helper_method :current_gram
   def current_gram
     @current_gram ||= Gram.find_by_id(params[:gram_id])
   end
 
+  helper_method :current_comment
   def current_comment
     @current_comment ||= Comment.find_by_id(params[:id])
   end

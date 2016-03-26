@@ -6,9 +6,11 @@
     .row
       .col-xs-9.col-md-6.col-md-offset-1
         .well.clearfix
-          = simple_form_for current_comment  do |form|
+          = simple_form_for current_comment, url: gram_comment_url(current_gram, current_comment) do |form|
             = form.input :text
             = form.submit "Update Comment", class: 'btn btn-primary pull-left'
             = link_to "Cancel", root_url, class: 'btn btn-danger pull-right'
       .col-xs-3.col-md-3
         = image_tag current_comment.gram.photo, class: 'img-responsive img-thumbnail'
+        %hr
+        %p= current_comment.gram.message

@@ -24,7 +24,7 @@
             %h4 Recent Comments
 
             - if gram.comments.count > 0
-              - gram.comments.limit(2).each do |comment|
+              - gram.comments.order(created_at: :asc).limit(2).each do |comment|
                 %blockquote
                   %p= comment.text
                   %footer
