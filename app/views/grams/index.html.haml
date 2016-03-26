@@ -29,7 +29,9 @@
                   %p= comment.text
                   %footer
                     %cite= comment.user.email
+                    = "on #{comment.updated_at.strftime('%b %d')} at #{comment.updated_at.strftime('%I:%M %p')}"
                     - if comment.user == current_user
+                      = link_to "Edit", edit_gram_comment_url(gram, comment), class: 'text-warning'
                       = link_to "Delete", gram_comment_url(gram, comment), class: 'text-danger', method: :delete
 
             - else
