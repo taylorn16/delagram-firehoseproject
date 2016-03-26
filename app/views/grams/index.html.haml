@@ -7,7 +7,7 @@
     - if Gram.count > 0
       - Gram.all.each do |gram|
         .row
-          .col-xs-9.col-md-6.col-md-offset-1
+          .col-xs-12.col-md-6.col-md-offset-1
             %section.panel.panel-default.gram-panel
               .panel-body
                 = image_tag gram.photo, class: 'img-responsive img-rounded'
@@ -18,11 +18,10 @@
                   = link_to "#{gram.comments.count} Comments", '#'
                   - if current_user == gram.user
                     |
-                    = link_to "Edit", edit_gram_url(gram), class: 'text-danger'
+                    = link_to "Edit", edit_gram_url(gram), class: 'text-warning'
                 %span.pull-right= gram.user.email
-          .col-xs-3.col-md-3
+          .col-xs-12.col-md-3
             %h4 Recent Comments
-            %hr
 
             - if gram.comments.count > 0
               - gram.comments.limit(2).each do |comment|
@@ -30,12 +29,16 @@
                   %p= comment.text
                   %footer
                     %cite= comment.user.email
+                    - if comment.user == current_user
+                      = link_to "Delete", gram_comment_url(gram, comment), class: 'text-danger', method: :delete
+
             - else
+              %hr
               %p No comments yet! Add yours below.
 
-            %hr
             = simple_form_for @comment, url: gram_comments_url(gram), html: {id: "new_comment_for_gram_#{gram.id}"} do |f|
               = f.input :text, label: 'Comment'
               = f.submit "Add Comment", class: 'btn btn-success btn-sm'
+        %hr.visible-xs-block.visible-sm-block
     - else
       %p.lead There are no grams uploaded yet!

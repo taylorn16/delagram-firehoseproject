@@ -1,3 +1,13 @@
 .row
   .col-xs-12
-    %h1 Edit Gram Form
+    %section.page-header
+      %h1 Edit Your Gram
+
+    .row
+      .col-xs-12.col-md-8.col-md-offset-2
+        .well.clearfix
+          = simple_form_for current_gram do |form|
+            = form.input :message
+            = form.input :photo
+            = form.submit "Update Gram", class: 'btn btn-primary pull-left'
+            = link_to "Cancel", root_url, class: 'btn btn-danger pull-right'

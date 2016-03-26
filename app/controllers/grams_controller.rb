@@ -50,6 +50,7 @@ class GramsController < ApplicationController
     params.require(:gram).permit(:message, :photo)
   end
 
+  helper_method :current_gram
   def current_gram
     @current_gram ||= Gram.find_by_id(params[:id])
   end
