@@ -38,9 +38,10 @@
               %hr
               %p No comments yet! Add yours below.
 
-            = simple_form_for @comment, url: gram_comments_url(gram), html: {id: "new_comment_for_gram_#{gram.id}"} do |f|
-              = f.input :text, label: 'Comment'
-              = f.submit "Add Comment", class: 'btn btn-success btn-sm'
+            - if user_signed_in?
+              = simple_form_for @comment, url: gram_comments_url(gram), html: {id: "new_comment_for_gram_#{gram.id}"} do |f|
+                = f.input :text, label: 'Comment'
+                = f.submit "Add Comment", class: 'btn btn-success btn-sm'
         %hr.visible-xs-block.visible-sm-block
     - else
       %p.lead There are no grams uploaded yet!
