@@ -4,7 +4,7 @@ Delagram::Application.routes.draw do
   root to: 'grams#index'
 
   resources :grams do
-    resources :comments, only: [:create, :destroy]
+    resources :comments
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,9 +1,9 @@
 class CommentsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :check_gram_exists, only: [:create, :destroy]
-  before_action :check_comment_exists, only: [:destroy]
-  before_action :authorize_current_comment, only: [:destroy]
+  before_action :check_gram_exists
+  before_action :check_comment_exists, except: [:create]
+  before_action :authorize_current_comment, except: [:create]
 
   def create
     @comment = current_gram.comments.create(comment_params.merge(user: current_user))
@@ -19,6 +19,15 @@ class CommentsController < ApplicationController
     current_comment.destroy
 
     return redirect_to root_url
+  end
+
+  def update
+    current_comment.update_attributes(comment_params)
+
+    return redirect_to root_url
+  end
+
+  def edit
   end
 
   private
