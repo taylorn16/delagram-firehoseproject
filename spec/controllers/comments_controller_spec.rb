@@ -12,6 +12,8 @@ RSpec.describe CommentsController, type: :controller do
       expect(response).to redirect_to root_url
       expect(gram.comments.length).to eq 1
       expect(gram.comments.last.text).to eq 'Sample comment'
+      expect(gram.comments.last.user).to eq user
+      expect(gram.comments.last.gram).to eq gram
     end
 
     it "should require a user to be logged in to comment on a gram" do
@@ -28,6 +30,15 @@ RSpec.describe CommentsController, type: :controller do
       post :create, gram_id: 'TACOCAT', comment: {text: 'Sample comment'}
 
       expect(response).to have_http_status :not_found
+      expect(Comment.count).to eq 0
+    end
+
+    it "should deal with validaiton errors properly" do
+      gram = FactoryGirl.create :gram
+      sign_in gram.user
+      post :create, gram_id: gram.id, comment: {text: ''}
+
+      expect(response).to have_http_status :unprocessable_entity
       expect(Comment.count).to eq 0
     end
   end

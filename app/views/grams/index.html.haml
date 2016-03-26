@@ -14,9 +14,28 @@
                 %hr
                 %p= gram.message
               .panel-footer.clearfix
+                %span
+                  = link_to "#{gram.comments.count} Comments", '#'
+                  - if current_user == gram.user
+                    |
+                    = link_to "Edit", edit_gram_url(gram), class: 'text-danger'
                 %span.pull-right= gram.user.email
           .col-xs-3.col-md-3
             %h4 Recent Comments
             %hr
+
+            - if gram.comments.count > 0
+              - gram.comments.limit(2).each do |comment|
+                %blockquote
+                  %p= comment.text
+                  %footer
+                    %cite= comment.user.email
+            - else
+              %p No comments yet! Add yours below.
+
+            %hr
+            = simple_form_for @comment, url: gram_comments_url(gram), html: {id: "new_comment_for_gram_#{gram.id}"} do |f|
+              = f.input :text, label: 'Comment'
+              = f.submit "Add Comment", class: 'btn btn-success btn-sm'
     - else
       %p.lead There are no grams uploaded yet!

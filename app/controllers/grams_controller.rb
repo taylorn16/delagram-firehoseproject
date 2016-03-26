@@ -5,6 +5,7 @@ class GramsController < ApplicationController
   before_action :check_user_has_access, only: [:edit, :update, :destroy]
 
   def index
+    @comment = Comment.new
   end
 
   def new

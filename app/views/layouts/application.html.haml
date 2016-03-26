@@ -3,6 +3,7 @@
   %head
     %title Delagram
     %meta{:content => "width=device-width, initial-scale=1", :name => "viewport"}/
+    = stylesheet_link_tag    "https://fonts.googleapis.com/css?family=Lobster", media: "all"
     = stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
@@ -15,7 +16,7 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          = link_to 'DelaGram', root_path, class: 'navbar-brand'
+          = link_to 'Delagram', root_path, class: 'navbar-brand', id: 'logo'
 
         .collapse.navbar-collapse#main-nav
           %ul.nav.navbar-nav
@@ -25,9 +26,14 @@
 
           %ul.nav.navbar-nav.navbar-right
             - if user_signed_in?
-              %p.navbar-text= "You're signed in as #{current_user.email}"
-              %li
-                = link_to 'Sign Out', destroy_user_session_path, method: :delete
+              %p.navbar-text= "You're signed in as"
+              %li.dropdown
+                = link_to "#{current_user.email}", '#', 'class' => 'dropdown-toggle', 'data-toggle' => 'dropdown', 'role' => 'button', 'aria-haspopup' => 'true', 'aria-expanded' => 'false'
+                %ul.dropdown-menu
+                  %li= link_to 'My Grams', '#'
+                  %li.divider{role: 'separator'}
+                  %li= link_to 'Sign Out', destroy_user_session_path, method: :delete
+
             - else
               %li
                 = link_to 'Sign Up', new_user_registration_path

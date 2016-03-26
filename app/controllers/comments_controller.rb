@@ -6,12 +6,12 @@ class CommentsController < ApplicationController
   before_action :authorize_current_comment, only: [:destroy]
 
   def create
-    @comment = current_gram.comments.create(comment_params)
+    @comment = current_gram.comments.create(comment_params.merge(user: current_user))
 
     if @comment.valid?
       return redirect_to root_url
     else
-
+      return render 'grams/index', status: :unprocessable_entity
     end
   end
 
