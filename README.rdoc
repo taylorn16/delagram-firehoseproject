@@ -1,3 +1,7 @@
 == Delagram
 
 An instagram clone app developed for the Firehose Project test-driven development project.
+
+Highlights include: user privelege management for uploads and comments. Editablity on uploads and comments. Went above and beyond project requirements for both front-end and back-end test writing.
+
+Developed using TDD (see spec directory).
